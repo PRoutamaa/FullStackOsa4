@@ -103,6 +103,46 @@ describe('Initialize test database', () => {
 
       assert.strictEqual(updatedBlog[1], 5555)
     })
+
+    test('blog not added without title', async () => {
+      const initialBlogs = await tester.get('/api/blogs')
+
+      const newBlog = {
+        title: '',
+        author: "Oscar Wetear",
+        url: "http://helloworld.com"
+      }
+    
+      await tester
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(400)
+        .expect('Content-Type', /application\/json/)
+    
+      const response = await tester.get('/api/blogs')
+      const finalBlogLength = response.body.length
+      assert.strictEqual(initialBlogs.body.length, finalBlogLength)
+    })
+
+    test('blog not added without url', async () => {
+      const initialBlogs = await tester.get('/api/blogs')
+
+      const newBlog = {
+        title: 'hello again',
+        author: "Oscar Wetear",
+        url: ""
+      }
+    
+      await tester
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(400)
+        .expect('Content-Type', /application\/json/)
+    
+      const response = await tester.get('/api/blogs')
+      const finalBlogLength = response.body.length
+      assert.strictEqual(initialBlogs.body.length, finalBlogLength)
+    })
   })
 })  
 
