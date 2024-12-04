@@ -3,6 +3,7 @@ const assert = require('node:assert')
 
 const listHelper = require('../utils/list_helper')
 
+
 describe('dummy', () => {
     test('test dummy to return 1', () => {
         assert.strictEqual(listHelper.dummy([]), 1)
